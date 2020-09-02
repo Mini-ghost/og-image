@@ -27,7 +27,7 @@ export function reqParser(url: IncomingMessage['url']): ParsedRequest {
     imageType: extension === 'jpeg' ? extension : 'png',
     text: decodeURIComponent(fileName) || '${ Not Fond fileName }',
     width: Number(width) || 1200,
-    height: Number(height) || 675,
+    height: Number(height) || 630,
     fontSize: Number(fontSize) || 52,
     avatarSize: Number(avatarSize)
   }
