@@ -63,10 +63,8 @@ router.get('/:title', eventHandler(async(event) => {
 
 app.use(router)
 
-const server = createServer(toNodeListener(app)).listen(process.env.PORT || 3300)
+createServer(toNodeListener(app)).listen(process.env.PORT || 3300)
 
 process.on('SIGINT', () => {
   process.exit(0)
 })
-
-export default server
