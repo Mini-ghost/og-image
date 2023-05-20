@@ -12,7 +12,6 @@ function format(date: number | Date) {
 }
 
 const app = createApp()
-
 const router = createRouter()
 
 router.get('/favicon.ico', eventHandler(({ node }) => {
