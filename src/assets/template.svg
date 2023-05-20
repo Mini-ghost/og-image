@@ -1,15 +1,5 @@
 <?xml version="1.0" standalone="no"?>
 <svg width="1201" height="630" viewBox="0 0 1201 630" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<style>
-@font-face {
-  font-family: NotoSansTC;
-  src: url(./assets/fonts/Noto_Sans_TC/NotoSansTC-Black.otf);
-}
-
-text {
-  font-family: NotoSansTC;
-}
-</style>
 <rect x="0.876587" width="1200" height="630" fill="#121212"/>
 <rect x="30.5919" y="35.5369" width="1140.57" height="558.926" rx="19.5" fill="#191919" stroke="#888888"/>
 <rect x="73.7903" y="457.378" width="100" height="100" rx="50" fill="url(#avatar)"/>
