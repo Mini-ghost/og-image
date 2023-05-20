@@ -1,6 +1,5 @@
 import { createServer } from 'node:http'
 import { dirname, resolve } from 'node:path'
-import { Buffer } from 'node:buffer'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNodeListener } from 'h3'
