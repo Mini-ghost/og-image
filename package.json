@@ -7,7 +7,7 @@
   "scripts": {
     "start": "esno src/index.ts",
     "lint": "eslint .",
-    "lint:fix": "pnpm lint --fix",
+    "lint:fix": "pnpm lint --fix"
   },
   "dependencies": {
     "esno": "^0.16.3",
