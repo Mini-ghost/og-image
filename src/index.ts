@@ -2,7 +2,6 @@ import { createServer } from 'node:http'
 import { dirname, resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { log } from 'node:console'
 import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNodeListener } from 'h3'
 import sharp from 'sharp'
 
@@ -10,7 +9,12 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const ONE_YEAR = 60 * 60 * 24 * 365
+
+const NotoSansTCBold = readFileSync(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf')).toString('base64')
+const InterBold = readFileSync(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf')).toString('base64')
+
 const template = readFileSync(resolve(__dirname, './assets/template.svg'), 'utf-8')
+
 function format(date: number | Date) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(date)
 }
@@ -24,7 +28,6 @@ router.get('/favicon.ico', eventHandler(({ node }) => {
 }))
 
 const cache = new Map<string, Buffer>()
-const NotoSansTCBold = readFileSync(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf')).toString('base64')
 
 router.get('/:title', eventHandler(async(event) => {
   const { res } = event.node
@@ -50,17 +53,22 @@ router.get('/:title', eventHandler(async(event) => {
       style: `<style>
 @font-face {
   font-family: Noto Sans TC;
-  font-style:  normal;
-  font-weight: normal;
+  font-style:  bold;
+  font-weight: bold;
   src: url(data:font/otf;charset=utf-8;base64,${NotoSansTCBold}) format('otf');
+}
+
+@font-face {
+  font-family: Inter;
+  font-style:  bold;
+  font-weight: bold;
+  src: url(data:font/ttf;charset=utf-8;base64,${InterBold}) format('ttf');
 }
 </style>`,
     }
 
     const svg = template.replace(/\{\{([^}]+)}}/g, (_, name) => data[name] || '')
     const image = sharp(Buffer.from(svg)).resize(1200 * 1.1, 630 * 1.1)
-
-    log('render', svg)
 
     cache.set(key, await image.toBuffer())
   }
