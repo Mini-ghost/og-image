@@ -23,7 +23,7 @@ router.get('/favicon.ico', eventHandler(({ node }) => {
   node.res.setHeader('Content-Type', 'image/x-icon')
 }))
 
-const cache = new Map<string, Buffer>()
+const cache = new Map<string, string>()
 
 router.get('/:title', eventHandler(async(event) => {
   const { res } = event.node
@@ -49,9 +49,9 @@ router.get('/:title', eventHandler(async(event) => {
     }
 
     const svg = template.replace(/\{\{([^}]+)}}/g, (_, name) => data[name] || '')
-    const image = sharp(Buffer.from(svg)).resize(1200 * 1.1, 630 * 1.1)
+    // const image = sharp(Buffer.from(svg)).resize(1200 * 1.1, 630 * 1.1)
 
-    cache.set(key, await image.toBuffer())
+    cache.set(key, svg)
   }
 
   res.statusCode = 200
