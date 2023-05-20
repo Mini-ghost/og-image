@@ -5,7 +5,7 @@
   "author": "Alex Liu <dsa1314@gmail.com>",
   "scripts": {
     "dev": "esno src/server.ts",
-    "lint": "eslint . --cache",
+    "lint": "eslint .",
     "lint:fix": "pnpm lint --fix"
   },
   "dependencies": {
