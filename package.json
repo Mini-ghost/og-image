@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Alex Liu <dsa1314@gmail.com>",
   "scripts": {
-    "start": "esno src/server.ts",
+    "start": "esno src/index.ts",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix"
   },
