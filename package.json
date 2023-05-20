@@ -3,7 +3,6 @@
   "description": "image server",
   "license": "MIT",
   "author": "Alex Liu <dsa1314@gmail.com>",
-  "type": "module",
   "scripts": {
     "start": "esno src/index.ts",
     "lint": "eslint .",
@@ -18,7 +17,7 @@
   "devDependencies": {
     "@hannoeru/eslint-config": "^0.9.5",
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "^18.16.13",
+    "@types/node": "^14.17.6",
     "eslint": "^8.41.0",
     "typescript": "^5.0.4"
   }

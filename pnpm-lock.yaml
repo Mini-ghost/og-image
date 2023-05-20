@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@hannoeru/eslint-config': ^0.9.5
   '@types/fs-extra': ^11.0.1
-  '@types/node': ^18.16.13
+  '@types/node': ^14.17.6
   canvas: 2.6.1
   eslint: ^8.41.0
   esno: ^0.16.3
@@ -18,7 +18,7 @@ dependencies:
 devDependencies:
   '@hannoeru/eslint-config': 0.9.5_opaykosi7ysrbskpnffskmbrki
   '@types/fs-extra': 11.0.1
-  '@types/node': 18.16.13
+  '@types/node': 14.18.47
   eslint: 8.41.0
   typescript: 5.0.4
 
@@ -443,6 +443,10 @@ packages:
     resolution: {integrity: sha512-Y/uImid8aAwrEA24/1tcRZwpxX3pIFTSilcNDKSPn+Y2iDywSEachzRuvgAYYLR3wpGXAsMbv5lvKLDZLeYPAw==}
     dependencies:
       '@types/unist': 2.0.6
+    dev: true
+
+  /@types/node/14.18.47:
+    resolution: {integrity: sha512-OuJi8bIng4wYHHA3YpKauL58dZrPxro3d0tabPHyiNF8rKfGKuVfr83oFlPLmKri1cX+Z3cJP39GXmnqkP11Gw==}
     dev: true
 
   /@types/node/18.16.13:
