@@ -8,7 +8,7 @@
     "start": "esno src/index.ts",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
-    "vercel-build": "bash install-font.sh"
+    "vercel-build": "bash script/install-font.sh"
   },
   "dependencies": {
     "esno": "^0.16.3",
