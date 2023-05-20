@@ -54,7 +54,7 @@ router.get('/:title', eventHandler(async(event) => {
   }
 
   res.statusCode = 200
-  res.setHeader('Content-Type', 'image/svg+xml')
+  res.setHeader('Content-Type', 'image/png')
   res.setHeader(
     'Cache-Control',
     `public, immutable, no-transform, s-maxage=${ONE_YEAR}, max-age=${ONE_YEAR}`,
