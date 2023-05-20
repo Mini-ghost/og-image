@@ -3,16 +3,16 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNodeListener } from 'h3'
 import {
+  GlobalFonts,
   createCanvas,
   loadImage,
-  registerFont,
-} from 'canvas'
+} from '@napi-rs/canvas'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-registerFont(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf'), { family: 'Noto Sans TC', weight: 'bold' })
-registerFont(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf'), { family: 'Inter', weight: 'bold' })
+GlobalFonts.registerFromPath(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf'))
+GlobalFonts.registerFromPath(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf'))
 
 const ONE_YEAR = 60 * 60 * 24 * 365
 
@@ -64,7 +64,7 @@ router.get('/:title', eventHandler(async(event) => {
     ctx.fillStyle = '#838383'
     ctx.fillText(meta, 73, 300 + (title.length - 1) * 70)
 
-    cache.set(key, canvas.toBuffer())
+    cache.set(key, await canvas.encode('png'))
   }
 
   res.statusCode = 200
