@@ -13,7 +13,7 @@ const __dirname = dirname(__filename)
 const ONE_YEAR = 60 * 60 * 24 * 365
 
 const NotoSansTCBold = readFileSync(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf')).toString('base64')
-const InterBold = readFileSync(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf')).toString('base64')
+// const InterBold = readFileSync(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf')).toString('base64')
 
 const template = readFileSync(resolve(__dirname, './assets/template.svg'), 'utf-8')
 
@@ -58,13 +58,6 @@ router.get('/:title', eventHandler(async(event) => {
   font-style:  bold;
   font-weight: bold;
   src: url(data:font/otf;charset=utf-8;base64,${NotoSansTCBold}) format('otf');
-}
-
-@font-face {
-  font-family: Inter;
-  font-style:  bold;
-  font-weight: bold;
-  src: url(data:font/ttf;charset=utf-8;base64,${InterBold}) format('ttf');
 }
 </style>`,
     }
