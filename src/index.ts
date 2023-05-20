@@ -1,24 +1,23 @@
 import { createServer } from 'node:http'
 import { dirname, resolve } from 'node:path'
-import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNodeListener } from 'h3'
-// import sharp from 'sharp'
-import chrome from 'chrome-aws-lambda'
-import core from 'puppeteer-core'
+import {
+  createCanvas,
+  loadImage,
+  registerFont,
+} from 'canvas'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+registerFont(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf'), { family: 'Noto Sans TC', weight: 'bold' })
+registerFont(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf'), { family: 'Inter', weight: 'bold' })
+
 const ONE_YEAR = 60 * 60 * 24 * 365
 
-const NotoSansTCBold = readFileSync(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf')).toString('base64')
-// const InterBold = readFileSync(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf')).toString('base64')
-
-const template = readFileSync(resolve(__dirname, './assets/template.svg'), 'utf-8')
-
 function format(date: number | Date) {
-  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(date)
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(date)
 }
 
 const app = createApp()
@@ -49,51 +48,23 @@ router.get('/:title', eventHandler(async(event) => {
   const key = JSON.stringify({ title, meta })
 
   if (!cache.has(key)) {
-    const data: Record<string, string> = {
-      title: title.map((t, index) => `<tspan x="73" y="${255 + index * 70}">${t}</tspan>`).join(''),
-      meta: `<tspan x="73" y="${300 + (title.length - 1) * 70}">${meta}</tspan>`,
-      style: `<style>
-@font-face {
-  font-family: Noto Sans TC;
-  font-style:  bold;
-  font-weight: bold;
-  src: url(data:font/otf;charset=utf-8;base64,${NotoSansTCBold}) format('otf');
-}
-</style>`,
-    }
+    const canvas = createCanvas(1200, 630)
+    const ctx = canvas.getContext('2d')
 
-    const svg = template.replace(/\{\{([^}]+)}}/g, (_, name) => data[name] || '')
+    ctx.fillStyle = '#121212'
+    ctx.fillRect(0, 0, 1200, 630)
+    ctx.fillStyle = ctx.createPattern(await loadImage(resolve(__dirname, './assets/template.svg')), 'repeat')
+    ctx.fillRect(0, 0, 1200, 630)
 
-    const browser = await core.launch({
-      args: chrome.args,
-      executablePath: await chrome.executablePath,
-      headless: chrome.headless,
-    })
+    ctx.font = "bold 48px Inter, 'Noto Sans TC'"
+    ctx.fillStyle = '#F3F3F3'
+    title.forEach((text, index) => ctx.fillText(text, 73, 255 + index * 70))
 
-    const page = await browser.newPage()
-    await page.setViewport({ width: 1200, height: 630 })
-    await page.setContent(`<html>
-  <style>
-    @font-face {
-      font-family: Noto Sans TC;
-      font-style:  bold;
-      font-weight: bold;
-      src: url(data:font/otf;charset=utf-8;base64,${NotoSansTCBold}) format('otf');
-    }
+    ctx.font = "bold 24px Inter, 'Noto Sans TC'"
+    ctx.fillStyle = '#838383'
+    ctx.fillText(meta, 73, 300 + (title.length - 1) * 70)
 
-    @font-face {
-      font-family: Inter;
-      font-style:  bold;
-      font-weight: bold;
-      src: url(data:font/ttf;charset=utf-8;base64,${InterBold}) format('ttf');
-    }
-  </style>
-  <body>
-    ${svg}
-  </body>
-</html>`)
-
-    cache.set(key, await page.screenshot({ type: 'png' }))
+    cache.set(key, canvas.toBuffer())
   }
 
   res.statusCode = 200
