@@ -1,9 +1,13 @@
 import { createServer } from 'node:http'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { Buffer } from 'node:buffer'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNodeListener } from 'h3'
-import { readFileSync } from 'fs-extra'
 import sharp from 'sharp'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const ONE_YEAR = 60 * 60 * 24 * 365
 const template = readFileSync(resolve(__dirname, './assets/template.svg'), 'utf-8')
