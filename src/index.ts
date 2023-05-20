@@ -23,7 +23,7 @@ router.get('/favicon.ico', eventHandler(({ node }) => {
   node.res.setHeader('Content-Type', 'image/x-icon')
 }))
 
-const cache = new Map<string, string>()
+const cache = new Map<string, Buffer>()
 
 router.get('/:title', eventHandler(async(event) => {
   const { res } = event.node
@@ -49,13 +49,13 @@ router.get('/:title', eventHandler(async(event) => {
     }
 
     const svg = template.replace(/\{\{([^}]+)}}/g, (_, name) => data[name] || '')
-    // const image = sharp(Buffer.from(svg)).resize(1200 * 1.1, 630 * 1.1)
+    const image = sharp(Buffer.from(svg)).resize(1200 * 1.1, 630 * 1.1)
 
-    cache.set(key, svg)
+    cache.set(key, await image.toBuffer())
   }
 
   res.statusCode = 200
-  res.setHeader('Content-Type', 'image/svg+xml')
+  res.setHeader('Content-Type', 'image/png')
   res.setHeader(
     'Cache-Control',
     `public, immutable, no-transform, s-maxage=${ONE_YEAR}, max-age=${ONE_YEAR}`,
