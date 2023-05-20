@@ -8,7 +8,7 @@
     "start": "esno src/index.ts",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
-    "vercel-build": "mkdir -p /usr/share/fonts && cp -r fonts /usr/share/fonts && fc-cache -f -v"
+    "vercel-build": "mkdir -p /usr/share/fonts && cp -r fonts /usr/share/fonts && sudo chmod -R fonts 755 && fc-cache -f -v"
   },
   "dependencies": {
     "esno": "^0.16.3",
