@@ -5,13 +5,14 @@ import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNod
 import {
   createCanvas,
   loadImage,
+  registerFont,
 } from 'canvas'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// registerFont(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf'), { family: 'Noto Sans TC', weight: 'bold' })
-// registerFont(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf'), { family: 'Inter', weight: 'bold' })
+registerFont(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf'), { family: 'Noto Sans TC', weight: 'bold' })
+registerFont(resolve(__dirname, './assets/fonts/Inter/Inter-Bold.ttf'), { family: 'Inter', weight: 'bold' })
 
 const ONE_YEAR = 60 * 60 * 24 * 365
 
