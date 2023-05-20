@@ -36,14 +36,14 @@ router.get('/:title', eventHandler(async(event) => {
   const { title: _title } = getRouterParams(event)
   let { create, read } = getQuery(event) as Record<string, string | string[]>
 
-  const title = decodeURIComponent(_title).trim().split(/(.{0,32})(?:\s|$)/g).filter(Boolean)
+  const title = decodeURIComponent(_title).replace(/\.(png|jpeg)$/i, '').trim().split(/(.{0,32})(?:\s|$)/g).filter(Boolean)
 
   create = Array.isArray(create) ? create[0] : create
-  create = format(Number(create))
+  create = create ? format(Number(create)) : ''
 
-  read = Array.isArray(read) ? read[0] : read
+  read = Array.isArray(read) ? read[0] : read ?? ''
 
-  const meta = `${create} • ${read}`
+  const meta = `${create} ${read ? `· ${read}` : ''}`
 
   const key = JSON.stringify({ title, meta })
 
