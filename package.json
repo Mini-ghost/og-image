@@ -9,13 +9,12 @@
     "lint:fix": "pnpm lint --fix",
     "vercel-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/"
   },
-  "engines": {
-    "node": "16.11.0"
-  },
   "dependencies": {
     "canvas": "2.6.1",
     "esno": "^0.16.3",
-    "h3": "^1.6.6"
+    "h3": "^1.6.6",
+    "node-pre-gyp": "^0.17.0",
+    "og-image": "link:"
   },
   "devDependencies": {
     "@hannoeru/eslint-config": "^0.9.5",
