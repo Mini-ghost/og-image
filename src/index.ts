@@ -53,7 +53,7 @@ router.get('/:title', eventHandler(async(event) => {
 
     ctx.fillStyle = '#121212'
     ctx.fillRect(0, 0, 1200, 630)
-    ctx.fillStyle = ctx.createPattern(await loadImage(resolve(__dirname, './assets/template.svg')), 'repeat')
+    ctx.fillStyle = ctx.createPattern(await loadImage(resolve(__dirname, './assets/template.png')), 'repeat')
     ctx.fillRect(0, 0, 1200, 630)
 
     ctx.font = "bold 48px Inter, 'Noto Sans TC'"
