@@ -10,8 +10,10 @@
     "lint:fix": "pnpm lint --fix"
   },
   "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
     "esno": "^0.16.3",
     "h3": "^1.6.6",
+    "puppeteer-core": "^20.2.1",
     "sharp": "^0.32.1"
   },
   "devDependencies": {

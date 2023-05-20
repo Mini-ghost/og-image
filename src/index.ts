@@ -3,7 +3,9 @@ import { dirname, resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNodeListener } from 'h3'
-import sharp from 'sharp'
+// import sharp from 'sharp'
+import chrome from 'chrome-aws-lambda'
+import core from 'puppeteer-core'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -68,9 +70,37 @@ router.get('/:title', eventHandler(async(event) => {
     }
 
     const svg = template.replace(/\{\{([^}]+)}}/g, (_, name) => data[name] || '')
-    const image = sharp(Buffer.from(svg)).resize(1200 * 1.1, 630 * 1.1)
 
-    cache.set(key, await image.toBuffer())
+    const browser = await core.launch({
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    })
+
+    const page = await browser.newPage()
+    await page.setViewport({ width: 1200, height: 630 })
+    await page.setContent(`<html>
+  <style>
+    @font-face {
+      font-family: Noto Sans TC;
+      font-style:  bold;
+      font-weight: bold;
+      src: url(data:font/otf;charset=utf-8;base64,${NotoSansTCBold}) format('otf');
+    }
+
+    @font-face {
+      font-family: Inter;
+      font-style:  bold;
+      font-weight: bold;
+      src: url(data:font/ttf;charset=utf-8;base64,${InterBold}) format('ttf');
+    }
+  </style>
+  <body>
+    ${svg}
+  </body>
+</html>`)
+
+    cache.set(key, await page.screenshot({ type: 'png' }))
   }
 
   res.statusCode = 200
