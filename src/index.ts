@@ -2,6 +2,7 @@ import { createServer } from 'node:http'
 import { dirname, resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { log } from 'node:console'
 import { createApp, createRouter, eventHandler, getQuery, getRouterParams, toNodeListener } from 'h3'
 import sharp from 'sharp'
 
@@ -23,6 +24,7 @@ router.get('/favicon.ico', eventHandler(({ node }) => {
 }))
 
 const cache = new Map<string, Buffer>()
+const NotoSansTCBold = readFileSync(resolve(__dirname, './assets/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf')).toString('base64')
 
 router.get('/:title', eventHandler(async(event) => {
   const { res } = event.node
@@ -45,10 +47,20 @@ router.get('/:title', eventHandler(async(event) => {
     const data: Record<string, string> = {
       title: title.map((t, index) => `<tspan x="73" y="${255 + index * 70}">${t}</tspan>`).join(''),
       meta: `<tspan x="73" y="${300 + (title.length - 1) * 70}">${meta}</tspan>`,
+      style: `<style>
+@font-face {
+  font-family: Noto Sans TC;
+  font-style:  normal;
+  font-weight: normal;
+  src: url(data:font/otf;charset=utf-8;base64,${NotoSansTCBold}) format('otf');
+}
+</style>`,
     }
 
     const svg = template.replace(/\{\{([^}]+)}}/g, (_, name) => data[name] || '')
     const image = sharp(Buffer.from(svg)).resize(1200 * 1.1, 630 * 1.1)
+
+    log('render', svg)
 
     cache.set(key, await image.toBuffer())
   }
